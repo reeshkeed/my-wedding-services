@@ -20,10 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/create-user', [UserController::class, 'createUser']);
 Route::post('/login', [UserController::class, 'authenticate']);
-// Route::post('login', 'UserController@authenticate');
-// Route::get('open', 'DataController@open');
 //
-// Route::group(['middleware' => ['jwt.verify']], function() {
-//    Route::get('user', 'UserController@getAuthenticatedUser');
-//    Route::get('closed', 'DataController@closed');
-// });
+Route::group(['middleware' => ['jwt.verify']], function() {
+   Route::get('/guest', [UserController::class, 'getUserDetails']);
+   Route::post('/guest/{id}', [UserController::class, 'updateResponse']);
+});
