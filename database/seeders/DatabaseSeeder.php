@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         User::truncate();
 
-        $csvFile = fopen(base_path("database/data/test.csv"), "r");
+        $csvFile = fopen(base_path("database/data/guest-list.csv"), "r");
 
         $firstline = true;
         while (($data = fgetcsv($csvFile, 2000, ",")) !== FALSE) {
