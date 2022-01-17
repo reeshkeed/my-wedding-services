@@ -27,7 +27,8 @@ class UserController extends Controller
             'username' => Str::slug($request->get('name'), '.'),
             'password' => Str::random(5),
             'seat_count' => $request->get('seat_count'),
-            'response' => False
+            'response' => False,
+            'seat_count_names' => $request->get('seat_count_names'),
         ]);
 
         $token = JWTAuth::fromUser($user);
@@ -41,7 +42,7 @@ class UserController extends Controller
 
        try {
            if (! $token = JWTAuth::attempt($credentials)) {
-               return response()->json(['error' => 'invalid_credentials'], 400);
+               return response()->json(['error' => 'Invalid Credentials'], 400);
            }
        } catch (JWTException $e) {
            return response()->json(['error' => 'could_not_create_token'], 500);
@@ -55,20 +56,20 @@ class UserController extends Controller
         try {
 
             if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
+                return response()->json(['error' => 'User not found'], 404);
             }
 
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
-            return response()->json(['token_expired'], $e->getStatusCode());
+            return response()->json(['error' => 'Token Expired'], $e->getStatusCode());
 
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
-            return response()->json(['token_invalid'], $e->getStatusCode());
+            return response()->json(['error' => 'Token Invalid'], $e->getStatusCode());
 
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
-            return response()->json(['token_absent'], $e->getStatusCode());
+            return response()->json(['error' => 'Token Absent'], $e->getStatusCode());
 
         }
 

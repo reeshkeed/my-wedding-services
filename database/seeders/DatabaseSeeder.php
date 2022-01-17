@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
                     "name" => $data['0'],
                     'username' => Str::slug($data['0'], '.'),
                     "seat_count" => $data['1'],
-                    "password" => Hash::make($data['2'])
+                    "password" => Hash::make($data['2']),
+                    "seat_count_names" => $data['3']
                 ]);
             }
             $firstline = false;
