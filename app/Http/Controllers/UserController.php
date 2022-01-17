@@ -27,7 +27,7 @@ class UserController extends Controller
             'username' => Str::slug($request->get('name'), '.'),
             'password' => Str::random(5),
             'seat_count' => $request->get('seat_count'),
-            'response' => False,
+            'response' => null,
             'seat_count_names' => $request->get('seat_count_names'),
         ]);
 

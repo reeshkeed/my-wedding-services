@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username');
             $table->string('password');
             $table->integer('seat_count');
-            $table->boolean('response')->default(false);
+            $table->integer('response')->unsigned()->nullable();
             $table->string('seat_count_names');
             $table->timestamps();
         });
