@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -78,16 +79,20 @@ class UserController extends Controller
 
     public function updateResponse(Request $request, $id)
     {
-      if (User::where('id', $id)->exists()) {
-          $user = User::find($id);
-          $user->response = is_null($request->response) ? $user->response : $request->response;
-          $user->save();
+        if (Auth::id() != $id) {
+            return response()->json(['error' => 'Invalid user ID.'], 401);
+        }
 
-          return response()->json(compact('user'), 200);
-      } else {
-          return response()->json([
-              'message' => 'Your details not found'
-          ], 404);
-      }
+        if (User::where('id', $id)->exists()) {
+            $user = User::find($id);
+            $user->response = is_null($request->response) ? $user->response : $request->response;
+            $user->save();
+
+            return response()->json(compact('user'), 200);
+        } else {
+            return response()->json([
+                'message' => 'Your details not found'
+            ], 404);
+        }
     }
 }
